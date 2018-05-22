@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Plantacja</string>
+
+    <string name="empty">Nie masz jeszcze roślin.</string>
+</resources>
