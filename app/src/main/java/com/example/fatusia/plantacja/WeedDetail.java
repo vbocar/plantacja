@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.fatusia.plantacja.User.*;
-
 public class WeedDetail extends AppCompatActivity {
 
     @Override
@@ -23,8 +21,8 @@ public class WeedDetail extends AppCompatActivity {
 
         Intent i = getIntent();
         int id = (int)i.getSerializableExtra("index");
-        get();
-        final Greenhouse weed = greenhouses.get(id);
+        final Greenhouse weed = User.greenhouses.get(id-1
+        );
 
         textView.setText(weed.plant.print());
         greenhouseView.setText(weed.print());

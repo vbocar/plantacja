@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class AddPlant extends AppCompatActivity {
 
     @Override
@@ -45,8 +47,18 @@ public class AddPlant extends AppCompatActivity {
                     type = Types.CACTUS;
                 }
                 User.newPlant(type, name);
+
+                Toast.makeText(view.getContext(), type.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+                    User.save(getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

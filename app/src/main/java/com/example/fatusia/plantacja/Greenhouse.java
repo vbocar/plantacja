@@ -1,22 +1,29 @@
 package com.example.fatusia.plantacja;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Greenhouse{
+public class Greenhouse implements Serializable{
 
     public Plant plant;
     private double lightning;
     private double hydration;
-    private final Date created;
+    private Date created;
     private Date lastModified;
-    private static int total =0;
+    public static int total =0;
     private int id;
 
     Greenhouse(){
@@ -100,4 +107,44 @@ public class Greenhouse{
 
         modifyPlant();
     }
+
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException{
+
+        stream.writeObject(plant.getType());
+
+        stream.writeObject(plant);
+        stream.writeObject(lightning);
+        stream.writeObject(hydration);
+        stream.writeObject(created);
+        stream.writeObject(lastModified);
+        stream.writeObject(id);
+
+    }
+
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+
+        Types type = (Types) stream.readObject();
+
+        switch (type){
+            case WEED:
+                plant = (Weed) stream.readObject();
+                break;
+            case CACTUS:
+                plant = (Cactus) stream.readObject();
+                break;
+            case SHROOM:
+                plant = (Shroom) stream.readObject();
+                break;
+        }
+
+        lightning = (Double) stream.readObject();
+        hydration = (Double) stream.readObject();
+        created = (Date) stream.readObject();
+        lastModified = (Date) stream.readObject();
+        id = (int) stream.readObject();
+    }
+
 }

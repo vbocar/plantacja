@@ -1,21 +1,27 @@
 package com.example.fatusia.plantacja;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class Plant{
+public abstract class Plant implements Serializable{
 
      String name;
      String substance;
-    private double substanceQuantity;
-    private double mass;
-    private double health;
-    private static int modificationCoefficient;
-    private final Date planted;
+    Types type;
+    protected double substanceQuantity;
+    protected double mass;
+    protected double health;
+    protected static int modificationCoefficient;
+    protected Date planted;
 
     public Types getType(){
         return Types.GENERIC;
@@ -61,5 +67,17 @@ public abstract class Plant{
 
         return out;
     }
+
+    private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException{
+        stream.writeObject(name);
+    }
+
+    private void readObject(java.io.ObjectInputStream stream)
+            throws IOException {
+
+    }
+
+
 
 }
