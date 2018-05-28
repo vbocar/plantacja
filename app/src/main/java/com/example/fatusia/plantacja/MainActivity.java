@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,8 +36,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent newIntent = new Intent(getApplicationContext(), AddPlant.class);
                 startActivity(newIntent);
+
+
             }
         });
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
 
         if(start){
             User.file = new File(getApplicationContext().getFilesDir(), "/data.dat");

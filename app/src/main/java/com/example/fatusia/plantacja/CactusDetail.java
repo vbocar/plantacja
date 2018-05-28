@@ -3,12 +3,19 @@ package com.example.fatusia.plantacja;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class CactusDetail extends AppCompatActivity {
+
+    int id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +26,7 @@ public class CactusDetail extends AppCompatActivity {
         final TextView greenhouseView = (TextView) findViewById(R.id.greenhouseView);
 
         Intent i = getIntent();
-        int id = (int)i.getSerializableExtra("index");
+        id = (int)i.getSerializableExtra("index");
         final Greenhouse cactus = User.get().greenhouses.get(id);
 
         textView.setText(cactus.plant.print());
@@ -50,6 +57,45 @@ public class CactusDetail extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_delete:
+                User.greenhouses.remove(id-1);
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                try {
+                    User.save(getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finish();
+                startActivity(i);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
+
 
